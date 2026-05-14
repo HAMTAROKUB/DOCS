@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd webadmin-DOCS && npm install && npm run build",
+  "outputDirectory": "webadmin-DOCS/dist",
+  "framework": "vite",
+  "installCommand": "echo skip"
+}
