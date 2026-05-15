@@ -359,9 +359,9 @@ const handleDrawerToggle = () => {
 
 ## 10. MUI & Styling
 
-### ใช้เฉพาะ `@mui/joy`
+### ควรใช้ `@mui/joy`
 
-ห้าม import render component จาก `@mui/material` เพราะ theme และ style จะขัดกัน  
+ควรใช้ `@mui/joy` สำหรับ render component เพราะโปรเจกต์ใช้ Joy theme เป็นหลัก — การ mix กับ `@mui/material` จะทำให้ theme และ style ขัดกัน เช่น สี, spacing, และ component variants จะไม่สอดคล้องกัน  
 ยกเว้น `useMediaQuery` hook เท่านั้นที่ยังไม่มีใน Joy
 
 ```typescript
@@ -372,7 +372,9 @@ import { Box, Typography, Button } from '@mui/joy';
 import { Box, Button } from '@mui/material';
 ```
 
-### ใช้ `sx` prop — ห้าม inline `style`
+### ควรใช้ `sx` prop แทน inline `style`
+
+เพราะ `sx` เข้าถึง theme, รองรับ responsive shorthand, และใช้ pseudo-class ได้ — ในขณะที่ `style` เป็น plain CSS object ที่ไม่รู้จัก theme และมักนำไปสู่การ hardcode ค่าโดยตรง
 
 ```typescript
 // ✅ ถูก — sx prop

@@ -26,7 +26,7 @@ const TopNav: FC<TopNavProps> = ({ onMenuClick, onSearchClick }) => {
           <span />
           <span />
         </button>
-        <span className="brand-name">WebAdmin DOCS</span>
+        <span className="brand-name">WebBackOffice DOCS</span>
       </div>
 
       <div className="topnav-center">

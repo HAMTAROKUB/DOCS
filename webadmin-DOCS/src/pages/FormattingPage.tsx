@@ -301,8 +301,9 @@ const fetchTableData = useCallback(async () => {
 
     <h2 id="mui-styling">MUI & Styling</h2>
     <p>
-      ใช้เฉพาะ <code>@mui/joy</code> สำหรับ render component — ห้าม import render component จาก{' '}
-      <code>@mui/material</code> เพราะ theme และ style จะขัดกัน
+      ควรใช้ <code>@mui/joy</code> สำหรับ render component เพราะโปรเจกต์ใช้ Joy theme เป็นหลัก —
+      การ mix กับ <code>@mui/material</code> จะทำให้ theme และ style ขัดกัน เช่น สี, spacing, และ
+      component variants จะไม่สอดคล้องกัน
     </p>
     <blockquote>
       ยกเว้น <code>useMediaQuery</code> hook ที่ยังไม่มีใน Joy — import จาก{' '}
@@ -312,12 +313,15 @@ const fetchTableData = useCallback(async () => {
       <code>{`// ✅ ถูก
 import { Box, Typography, Button } from '@mui/joy';
 
-// ❌ ผิด — ห้าม render component จาก @mui/material
+// ❌ ไม่ควร — ไม่ควร render component จาก @mui/material
 import { Box, Button } from '@mui/material';`}</code>
     </pre>
 
     <p>
-      ใช้ <code>sx</code> prop สำหรับ styling — ห้ามใช้ inline <code>style</code> object
+      ควรใช้ <code>sx</code> prop แทน inline <code>style</code> object เพราะ <code>sx</code>{' '}
+      เข้าถึง theme, รองรับ responsive shorthand, และใช้ pseudo-class เช่น{' '}
+      <code>&amp;:hover</code> ได้ — ในขณะที่ <code>style</code> เป็น plain CSS object ที่ไม่รู้จัก
+      theme และมักนำไปสู่การ hardcode ค่าโดยตรง
     </p>
     <pre>
       <code>{`// ✅ ถูก — sx prop
@@ -325,7 +329,7 @@ import { Box, Button } from '@mui/material';`}</code>
   <Typography sx={{ fontWeight: 600 }}>Label</Typography>
 </Box>
 
-// ❌ ผิด — inline style object
+// ❌ ไม่ควร — inline style object
 <Box style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
   <Typography style={{ fontWeight: 600 }}>Label</Typography>
 </Box>`}</code>
