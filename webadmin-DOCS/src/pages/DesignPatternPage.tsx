@@ -8,6 +8,7 @@ type Props = { navigate: (page: PageId) => void }
 const toc: TocItem[] = [
   { id: 'component-pattern', label: 'Component Pattern', level: 2 },
   { id: 'page-layout', label: 'PageLayout', level: 3 },
+  { id: 'global-pagination', label: 'GlobalPagination', level: 3 },
   // { id: 'common-table', label: 'CommonTable', level: 3 },
   // { id: 'search-filter', label: 'SearchAndFilter', level: 3 },
   { id: 'popup', label: 'Popup Components', level: 3 },
@@ -169,7 +170,72 @@ const columns: ColumnDef<RiderListItem>[] = [
 />`}</code>
     </pre> */}
 
-    <h3 id="popup">1.2 Popup Components</h3>
+    <h3 id="global-pagination">1.3 GlobalPagination</h3>
+    <p>
+      <code>GlobalPagination</code> คือ shared pagination component — ใช้แทน pagination ใน <code>CommonTable</code>{' '}
+      หรือใช้แยกได้เมื่อต้องการ control เองโดยตรง
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Prop</th>
+          <th>Type</th>
+          <th>ใช้งาน</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>totalItems</code></td>
+          <td>number</td>
+          <td>จำนวน record ทั้งหมด (จาก API)</td>
+        </tr>
+        <tr>
+          <td><code>pageIndex</code></td>
+          <td>number</td>
+          <td>หน้าปัจจุบัน (0-based)</td>
+        </tr>
+        <tr>
+          <td><code>pageSize</code></td>
+          <td>number | null</td>
+          <td>จำนวน row ต่อหน้า — <code>null</code> = แสดงทั้งหมด</td>
+        </tr>
+        <tr>
+          <td><code>onPageChange</code></td>
+          <td>(index: number) =&gt; void</td>
+          <td>callback เมื่อเปลี่ยนหน้า</td>
+        </tr>
+        <tr>
+          <td><code>onPageSizeChange</code></td>
+          <td>(size: number) =&gt; void</td>
+          <td>callback เมื่อเปลี่ยน page size</td>
+        </tr>
+        <tr>
+          <td><code>hideRowsPerPage</code></td>
+          <td>boolean</td>
+          <td>ซ่อน dropdown เลือก page size</td>
+        </tr>
+        <tr>
+          <td><code>disabled</code></td>
+          <td>boolean</td>
+          <td>disable ทุกปุ่มขณะ loading</td>
+        </tr>
+      </tbody>
+    </table>
+    <pre>
+      <code>{`<GlobalPagination
+  totalItems={totalItems}
+  pageIndex={pageIndex}
+  pageSize={pageSize}
+  onPageChange={(page) => dispatch(setPageIndex(page))}
+  onPageSizeChange={(size) => dispatch(setPageSize(size))}
+  disabled={isLoading}
+/>`}</code>
+    </pre>
+    <blockquote>
+      <code>pageIndex</code> เป็น 0-based — หน้าแรกคือ <code>0</code>, ไม่ใช่ <code>1</code>
+    </blockquote>
+
+    <h3 id="popup">1.4 Popup Components</h3>
     <table>
       <thead>
         <tr>

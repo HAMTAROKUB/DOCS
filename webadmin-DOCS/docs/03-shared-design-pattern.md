@@ -7,6 +7,12 @@
 ## Table of Contents
 
 1. [Component Pattern](#1-component-pattern)
+   - [1.1 PageLayout](#11-pagelayout--wrapper-ของทุกหน้า)
+   - [1.2 CommonTable](#12-commontable--generic-table-component)
+   - [1.3 GlobalPagination](#13-globalpagination)
+   - [1.4 SearchAndFilter](#14-searchandfilter--search--filter-bar)
+   - [1.5 Selecter](#15-selecter--dropdown-input)
+   - [1.6 Popup Components](#16-popup-components)
 2. [Service Pattern](#2-service-pattern)
 3. [Hook Pattern](#3-hook-pattern)
 4. [State Management Pattern](#4-state-management-pattern)
@@ -96,7 +102,34 @@ const columns: ColumnDef<RiderListItem>[] = [
 - ถ้าไม่ส่ง `pagination` prop → ไม่แสดง pagination
 
 ---
+### 1.3 GlobalPagination
 
+`GlobalPagination` คือ shared pagination component — ใช้แทน pagination ใน `CommonTable` หรือใช้แยกได้เมื่อต้องการ control เองโดยตรง
+
+| Prop | Type | ใช้งาน |
+|---|---|---|
+| `totalItems` | number | จำนวน record ทั้งหมด (จาก API) |
+| `pageIndex` | number | หน้าปัจจุบัน (0-based) |
+| `pageSize` | `number \| null` | จำนวน row ต่อหน้า — `null` = แสดงทั้งหมด |
+| `onPageChange` | `(index: number) => void` | callback เมื่อเปลี่ยนหน้า |
+| `onPageSizeChange` | `(size: number) => void` | callback เมื่อเปลี่ยน page size |
+| `hideRowsPerPage` | boolean | ซ่อน dropdown เลือก page size |
+| `disabled` | boolean | disable ทุกปุ่มขณะ loading |
+
+```typescript
+<GlobalPagination
+  totalItems={totalItems}
+  pageIndex={pageIndex}
+  pageSize={pageSize}
+  onPageChange={(page) => dispatch(setPageIndex(page))}
+  onPageSizeChange={(size) => dispatch(setPageSize(size))}
+  disabled={isLoading}
+/>
+```
+
+> `pageIndex` เป็น 0-based — หน้าแรกคือ `0` ไม่ใช่ `1`
+
+---
 ### 1.3 SearchAndFilter — Search + Filter Bar
 
 Component กลางสำหรับ search input, dropdown filter, และ date range picker  
