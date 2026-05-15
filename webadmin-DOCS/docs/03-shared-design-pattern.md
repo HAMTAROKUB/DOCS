@@ -7,12 +7,14 @@
 ## Table of Contents
 
 1. [Component Pattern](#1-component-pattern)
-   - [1.1 PageLayout](#11-pagelayout--wrapper-ของทุกหน้า)
-   - [1.2 CommonTable](#12-commontable--generic-table-component)
-   - [1.3 GlobalPagination](#13-globalpagination)
-   - [1.4 SearchAndFilter](#14-searchandfilter--search--filter-bar)
-   - [1.5 Selecter](#15-selecter--dropdown-input)
-   - [1.6 Popup Components](#16-popup-components)
+   - [1.1 Component Layers](#11-component-layers)
+   - [1.2 Design Principles](#12-design-principles)
+   - [1.3 PageLayout](#13-pagelayout--wrapper-ของทุกหน้า)
+   - [1.4 GlobalPagination](#14-globalpagination)
+   - [1.5 CommonTable](#15-commontable--generic-table-component)
+   - [1.6 SearchAndFilter](#16-searchandfilter--search--filter-bar)
+   - [1.7 Selecter](#17-selecter--dropdown-input)
+   - [1.8 Popup Components](#18-popup-components)
 2. [Service Pattern](#2-service-pattern)
 3. [Hook Pattern](#3-hook-pattern)
 4. [State Management Pattern](#4-state-management-pattern)
@@ -23,7 +25,36 @@
 
 ## 1. Component Pattern
 
-### 1.1 PageLayout — Wrapper ของทุกหน้า
+โปรเจกต์แบ่ง component ออกเป็น 3 layer ที่มีหน้าที่ชัดเจน ก่อนสร้าง component ใหม่ควรถามว่า "component นี้ควรอยู่ layer ไหน?" เพราะตำแหน่งที่วางกำหนดว่า component นั้นจะมี dependency อะไรได้บ้าง
+
+---
+
+### 1.1 Component Layers
+
+| Layer | ที่อยู่ | รู้จักอะไร | ตัวอย่าง |
+|---|---|---|---|
+| **Page** | `src/pages/` | Redux, routing, API call, business logic ทั้งหมด | `OrderHistoryListPage` |
+| **Feature** | `src/features/` | รู้จัก domain type และ business rule ของ feature นั้น | `RiderProfilesTable`, `AssignRiderDialog` |
+| **Shared** | `src/components/` | ไม่รู้จัก domain ใด รับแค่ data และ callback ผ่าน props | `CommonTable`, `GlobalPagination`, `PageLayout` |
+
+> กฎเหล็ก: **Shared component ห้ามรู้จัก feature-specific type** — ถ้า `CommonTable` รู้จัก `RiderListItem` แปลว่า design ผิดแล้ว
+
+---
+
+### 1.2 Design Principles
+
+หลักการออกแบบ component ให้ reusable และ maintain ได้ง่าย:
+
+| หลักการ | ความหมาย | ผลที่ได้ |
+|---|---|---|
+| **Single Responsibility** | component ทำหน้าที่เดียว เช่น `GlobalPagination` รู้แค่ page index/size ไม่รู้ว่า data ข้างบนเป็นอะไร | นำกลับมาใช้ใหม่ได้โดยไม่ต้องแก้ component |
+| **Prop-driven** | state ทั้งหมดอยู่ที่ parent — component รับผ่าน props และคืน event ผ่าน callback ไม่ fetch data เอง | ทดสอบง่าย, ไม่มี side effect ซ่อน |
+| **Generic over Specific** | ถ้า logic เหมือนกันหลาย feature ให้ใช้ generic type เช่น `CommonTable<T>` แทน `RiderTable`, `OrderTable` แยกกัน | แก้ bug ที่เดียว fix ทุก feature |
+| **Composition over Config** | แทนที่จะใส่ `if` สำหรับทุก use case ให้รับ `ReactNode` ผ่าน props เช่น `options` prop ของ `PageLayout` | ไม่ต้องแก้ shared component เมื่อ feature ใหม่มีความต้องการแปลกออกไป |
+
+---
+
+### 1.3 PageLayout — Wrapper ของทุกหน้า
 
 ทุก page ภายใต้ `/app` ต้อง wrap ด้วย `<PageLayout>` เสมอ ห้ามสร้าง header หรือ breadcrumb เอง
 
@@ -51,7 +82,7 @@ const path = {
 
 ---
 
-### 1.2 CommonTable — Generic Table Component
+### 1.5 CommonTable — Generic Table Component
 
 `CommonTable<T>` เป็น generic component รับ type ของข้อมูลแต่ละแถว  
 ไม่รู้จัก business logic ใด ๆ รับแค่ `columns` definition และ `data` array
@@ -102,7 +133,7 @@ const columns: ColumnDef<RiderListItem>[] = [
 - ถ้าไม่ส่ง `pagination` prop → ไม่แสดง pagination
 
 ---
-### 1.3 GlobalPagination
+### 1.4 GlobalPagination
 
 `GlobalPagination` คือ shared pagination component — ใช้แทน pagination ใน `CommonTable` หรือใช้แยกได้เมื่อต้องการ control เองโดยตรง
 
@@ -130,7 +161,7 @@ const columns: ColumnDef<RiderListItem>[] = [
 > `pageIndex` เป็น 0-based — หน้าแรกคือ `0` ไม่ใช่ `1`
 
 ---
-### 1.3 SearchAndFilter — Search + Filter Bar
+### 1.6 SearchAndFilter — Search + Filter Bar
 
 Component กลางสำหรับ search input, dropdown filter, และ date range picker  
 ทุก prop เป็น optional — ใช้เฉพาะสิ่งที่ต้องการ
@@ -162,7 +193,7 @@ Component กลางสำหรับ search input, dropdown filter, แล�
 
 ---
 
-### 1.4 Selecter — Dropdown Input
+### 1.7 Selecter — Dropdown Input
 
 Wrapper ของ MUI Joy `<Select>` ที่รับ `options: SelecterOption[]` แทนการสร้าง `<Option>` เอง  
 ปรับ width อัตโนมัติตามความยาว label ที่ยาวที่สุด
@@ -183,7 +214,7 @@ export type SelecterOption = {
 
 ---
 
-### 1.5 Popup Components
+### 1.8 Popup Components
 
 มี 4 popup สำเร็จรูปใน `src/components/popup/`:
 
@@ -233,7 +264,11 @@ setErrorPopupOpen(true);
 
 ## 2. Service Pattern
 
+ทุก API call ต้องผ่าน layer ที่กำหนดไว้ — ห้าม call ตรงจาก component เพื่อให้ logic การเรียก API อยู่ที่เดียว แก้ไขได้ง่าย และ testable
+
 ### 2.1 HTTP Stack
+
+การเรียก API ไหลผ่าน 4 ชั้นเสมอ — แต่ละชั้นมีหน้าที่ชัดเจนและไม่ข้ามชั้น ทำให้ง่ายต่อการ mock ในการทดสอบและเปลี่ยน HTTP client ในอนาคตโดยไม่กระทบ business logic
 
 ```
 Component / Page
@@ -273,7 +308,7 @@ const apiService = {
 
 ### 2.3 Domain Service — รูปแบบการเขียน
 
-แต่ละ domain มี service file ของตัวเอง แต่ละ function เป็น `async` และระบุ return type ชัดเจน
+แต่ละ domain มี service file ของตัวเอง (เช่น `riderProfilesService.ts`) ชื่อ function บอก intent ชัดเจนด้วย prefix — `api*` คืน raw response, `get*` คืน unwrapped data, `export*` คืน Blob สำหรับ download แต่ละ function เป็น `async` และระบุ return type ชัดเจน
 
 ```typescript
 // riderProfilesService.ts
@@ -332,6 +367,8 @@ interface ErrorResponseProps {
 ---
 
 ## 3. Hook Pattern
+
+Custom hook ที่ใช้ซ้ำทั่วโปรเจกต์ — แต่ละ hook มีหน้าที่เดียวและไม่ผูกกับ domain ใด ช่วยลด boilerplate และทำให้ component อ่านง่ายขึ้น
 
 ### 3.1 useAppDispatch / useAppSelector — Typed Redux Hooks
 

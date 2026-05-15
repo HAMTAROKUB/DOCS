@@ -79,7 +79,7 @@ public/
       </tbody>
     </table>
 
-    <p>Feature ที่มีอยู่ปัจจุบัน:</p>
+    {/* <p>Feature ที่มีอยู่ปัจจุบัน:</p>
     <table>
       <thead>
         <tr>
@@ -127,7 +127,7 @@ public/
           <td><code>riderProfilesDetail/</code></td>
         </tr>
       </tbody>
-    </table>
+    </table> */}
 
     <h2 id="shared-vs-feature">Shared vs Feature-Specific</h2>
     <p>
