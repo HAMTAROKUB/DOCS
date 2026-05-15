@@ -281,6 +281,10 @@ import { apiGetOrderHistoryList } from '../../services/orderHistoryService';`}</
     </blockquote>
 
     <h2 id="function-style">Function Style</h2>
+    <p>
+      <strong>Function declaration</strong> สำหรับ page/feature components — <strong>arrow function</strong> สำหรับ shared/utility
+      — <strong>async API ใช้ async/await + try/catch + finally</strong> เพื่อจัดการ loading, error, cleanup
+    </p>
     <pre>
       <code>{`// ✅ Function declaration — page & feature components
 export default function OrderHistoryListPage() { ... }
@@ -305,6 +309,10 @@ const fetchTableData = useCallback(async () => {
     </pre>
 
     <h2 id="type-annotation">Type Annotation Style</h2>
+    <p>
+      <code>interface</code> สำหรับ object shape ที่อาจ extend ในอนาคต — <code>type</code> สำหรับ union, alias, primitive, mapped type
+      — ห้าม <code>any</code>, ใช้ <code>unknown</code> + narrow type แทน
+    </p>
     <pre>
       <code>{`// interface — object shape ที่อาจ extend ได้
 interface RiderProfilesTableProps {
