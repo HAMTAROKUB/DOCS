@@ -170,7 +170,7 @@ const columns: ColumnDef<RiderListItem>[] = [
 />`}</code>
     </pre> */}
 
-    <h3 id="global-pagination">1.3 GlobalPagination</h3>
+    <h3 id="global-pagination">1.2 GlobalPagination</h3>
     <p>
       <code>GlobalPagination</code> คือ shared pagination component — ใช้แทน pagination ใน <code>CommonTable</code>{' '}
       หรือใช้แยกได้เมื่อต้องการ control เองโดยตรง
@@ -235,7 +235,7 @@ const columns: ColumnDef<RiderListItem>[] = [
       <code>pageIndex</code> เป็น 0-based — หน้าแรกคือ <code>0</code>, ไม่ใช่ <code>1</code>
     </blockquote>
 
-    <h3 id="popup">1.4 Popup Components</h3>
+    <h3 id="popup">1.3 Popup Components</h3>
     <table>
       <thead>
         <tr>
