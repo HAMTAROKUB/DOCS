@@ -31,7 +31,7 @@ export const sections: NavSection[] = [
       {
         id: 'naming',
         label: 'Naming Convention',
-        badge: 'สำคัญ',
+        // badge: 'สำคัญ',
         description: 'มาตรฐานการตั้งชื่อ file, component, hook, service ทั้งโปรเจกต์',
       },
       {
