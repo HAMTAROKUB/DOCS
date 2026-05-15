@@ -221,20 +221,32 @@ const NamingPage: FC<Props> = ({ navigate }) => (
   utils/        ← utility functions`}</code>
     </pre>
     <p>
-      Sub-folder ภายใน domain/feature ใช้ <strong>camelCase</strong>:
+      Sub-folder ภายใน domain/feature ใช้ <strong>camelCase</strong> เพราะชื่อ folder ตรงกับชื่อ
+      domain ที่ใช้ใน codebase เช่น <code>orderHistory</code> ตรงกับ Redux slice, interface file,
+      และ service ที่ใช้ชื่อเดียวกัน ทำให้ navigate โครงสร้างได้ง่ายขึ้น
+    </p>
+    <p>
+      ยกเว้น sub-folder ใน <code>components/</code> ที่จัดตาม <strong>UI category</strong> (ไม่ใช่
+      domain) ให้ใช้ตัวพิมพ์เล็กทั้งหมด เช่น <code>layout/</code>, <code>popup/</code> —
+      เพราะ folder เหล่านี้ไม่ได้ผูกกับ domain ใดเป็นพิเศษ
     </p>
     <pre>
       <code>{`pages/
-  orderHistory/       ← camelCase
+  orderHistory/       ← camelCase (domain name)
   orderTracking/
   riderProfiles/
 
 components/
-  layout/             ← lowercase (UI category)
+  layout/             ← lowercase (UI category ไม่ใช่ domain)
   popup/
   inputs/
   table/`}</code>
     </pre>
+    <blockquote>
+      หลักง่าย ๆ: ถามว่า folder นี้เป็น "domain" หรือ "UI category"?
+      <br />
+      domain → <strong>camelCase</strong> &nbsp;|&nbsp; UI category → <strong>lowercase</strong>
+    </blockquote>
 
     <h2 id="component-naming">Component Naming</h2>
     <p>
