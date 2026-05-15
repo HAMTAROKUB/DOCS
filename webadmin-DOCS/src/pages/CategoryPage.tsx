@@ -39,9 +39,9 @@ const CategoryPage: FC<CategoryPageProps> = ({ navigate }) => {
 
         <div className="page-footer">
           <div className="nav-buttons">
-            <button className="next-button" onClick={() => navigate('naming')}>
+            <button className="next-button" onClick={() => navigate('repo-structure')}>
               <span className="nav-label">ถัดไป</span>
-              <span className="nav-page">Naming Convention →</span>
+              <span className="nav-page">Repository Structure →</span>
             </button>
           </div>
         </div>

@@ -9,8 +9,8 @@ const toc: TocItem[] = [
   { id: 'top-level', label: 'Top-Level Folders', level: 2 },
   { id: 'feature-boundaries', label: 'Feature Boundaries', level: 2 },
   { id: 'shared-vs-feature', label: 'Shared vs Feature-Specific', level: 2 },
-  { id: 'store-convention', label: 'Store Folder Convention', level: 2 },
   { id: 'public-assets', label: 'Public Assets', level: 2 },
+//   { id: 'store-convention', label: 'Store Folder Convention', level: 2 },
 ]
 
 const RepoStructurePage: FC<Props> = ({ navigate }) => (
@@ -19,7 +19,7 @@ const RepoStructurePage: FC<Props> = ({ navigate }) => (
     description="โครงสร้าง folder และ file ของโปรเจกต์ — แต่ละ layer อยู่ที่ไหน และมีหน้าที่อะไร"
     breadcrumb={['🏠', 'พื้นฐานโปรเจกต์', 'Repository Structure']}
     toc={toc}
-    prev="design-pattern"
+    next="naming"
     navigate={navigate}
   >
     <h2 id="top-level">Top-Level Folders</h2>
@@ -182,16 +182,6 @@ public/
   riderProfilesDetail/  ← detail-specific components`}</code>
     </pre>
 
-    <h2 id="store-convention">Store Folder Convention</h2>
-    <p>
-      ทุก folder ใน <code>src/stores/&lt;domain&gt;/</code> ต้องมีแค่ 2 ไฟล์นี้เสมอ:
-    </p>
-    <pre>
-      <code>{`<domain>/
-  index.ts        ← export reducers สำหรับ rootReducer
-  stateSlice.ts   ← createSlice definition`}</code>
-    </pre>
-
     <h2 id="public-assets">Public Assets</h2>
     <p>
       ไฟล์ใน <code>public/icons/</code> reference ผ่าน absolute path จาก root —
@@ -204,6 +194,16 @@ public/
 // ❌ ผิด — ES module import จาก public/
 import shopIcon from '../../public/icons/shop.svg'`}</code>
     </pre>
+
+    {/* <h2 id="store-convention">Store Folder Convention</h2>
+    <p>
+      ทุก folder ใน <code>src/stores/&lt;domain&gt;/</code> ต้องมีแค่ 2 ไฟล์นี้เสมอ:
+    </p>
+    <pre>
+      <code>{`<domain>/
+  index.ts        ← export reducers สำหรับ rootReducer
+  stateSlice.ts   ← createSlice definition`}</code>
+    </pre> */}
   </DocLayout>
 )
 

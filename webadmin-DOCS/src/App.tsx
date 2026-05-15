@@ -11,7 +11,7 @@ import type { PageId } from './data/navigation'
 
 export function App() {
   const [currentPage, setCurrentPage] = useState<PageId>(
-    () => (localStorage.getItem('docs-page') as PageId) ?? 'foundation',
+    () => (localStorage.getItem('docs-page') as PageId) ?? 'repo-structure',
   )
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [searchOpen, setSearchOpen] = useState(false)

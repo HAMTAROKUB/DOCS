@@ -1,7 +1,7 @@
 # Coding Standard & Convention — web-backoffice-rider
 
-> **Audience:** All frontend developers working on this project.  
-> **Purpose:** Ensure consistent code style, improve readability, reduce review time, and make the project easier to maintain.
+> **กลุ่มเป้าหมาย:** นักพัฒนา Frontend ทุกคนในโปรเจกต์นี้  
+> **วัตถุประสงค์:** เพื่อให้ code style มีความสม่ำเสมอ อ่านง่ายขึ้น ลดความสับสน และเพิ่มความสอดคล้องของ codebase
 
 ---
 

@@ -7,10 +7,11 @@ type Props = { navigate: (page: PageId) => void }
 
 const toc: TocItem[] = [
   { id: 'component-pattern', label: 'Component Pattern', level: 2 },
-  { id: 'page-layout', label: 'PageLayout', level: 3 },
-  { id: 'global-pagination', label: 'GlobalPagination', level: 3 },
-  // { id: 'common-table', label: 'CommonTable', level: 3 },
-  // { id: 'search-filter', label: 'SearchAndFilter', level: 3 },
+  { id: 'component-layers', label: 'Component Layers', level: 3 },
+  { id: 'component-design-principles', label: 'Design Principles', level: 3 },
+  { id: 'page-layout', label: 'ตัวอย่าง: PageLayout', level: 3 },
+  { id: 'global-pagination', label: 'ตัวอย่าง: GlobalPagination', level: 3 },
+  { id: 'common-table', label: 'ตัวอย่าง: CommonTable', level: 3 },
   { id: 'popup', label: 'Popup Components', level: 3 },
   { id: 'service-pattern', label: 'Service Pattern', level: 2 },
   { id: 'http-stack', label: 'HTTP Stack', level: 3 },
@@ -28,15 +29,107 @@ const DesignPatternPage: FC<Props> = ({ navigate }) => (
     breadcrumb={['🏠', 'พื้นฐานโปรเจกต์', 'Design Pattern']}
     toc={toc}
     prev="formatting"
-    next="repo-structure"
     navigate={navigate}
   >
     <h2 id="component-pattern">1. Component Pattern</h2>
-
-    <h3 id="page-layout">1.1 PageLayout — Wrapper ของทุกหน้า</h3>
     <p>
-      ทุก page ภายใต้ <code>/app</code> ต้อง wrap ด้วย <code>&lt;PageLayout&gt;</code> เสมอ
-      ห้ามสร้าง header หรือ breadcrumb เอง
+      โปรเจกต์แบ่ง component ออกเป็น 3 layer ที่มีหน้าที่ชัดเจน ก่อนสร้าง component ใหม่ควรถามว่า
+      "component นี้ควรอยู่ layer ไหน?" เพราะตำแหน่งที่วางกำหนดว่า component นั้นจะมี
+      dependency อะไรได้บ้าง
+    </p>
+
+    <h3 id="component-layers">1.1 Component Layers</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>ที่อยู่</th>
+          <th>รู้จักอะไร</th>
+          <th>ตัวอย่าง</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Page</strong></td>
+          <td><code>src/pages/</code></td>
+          <td>Redux, routing, API call, business logic ทั้งหมด</td>
+          <td><code>OrderHistoryListPage</code></td>
+        </tr>
+        <tr>
+          <td><strong>Feature</strong></td>
+          <td><code>src/features/</code></td>
+          <td>รู้จัก domain type และ business rule ของ feature นั้น</td>
+          <td><code>RiderProfilesTable</code>, <code>AssignRiderDialog</code></td>
+        </tr>
+        <tr>
+          <td><strong>Shared</strong></td>
+          <td><code>src/components/</code></td>
+          <td>ไม่รู้จัก domain ใด รับแค่ data และ callback ผ่าน props</td>
+          <td><code>CommonTable</code>, <code>GlobalPagination</code>, <code>PageLayout</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <blockquote>
+      กฎเหล็ก: <strong>Shared component ห้ามรู้จัก feature-specific type</strong> — ถ้า{' '}
+      <code>CommonTable</code> รู้จัก <code>RiderListItem</code> แปลว่า design ผิดแล้ว
+    </blockquote>
+
+    <h3 id="component-design-principles">1.2 Design Principles</h3>
+    <p>หลักการออกแบบ component ให้ reusable และ maintain ได้ง่าย:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>หลักการ</th>
+          <th>ความหมาย</th>
+          <th>ผลที่ได้</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Single Responsibility</strong></td>
+          <td>
+            component ทำหน้าที่เดียว เช่น <code>GlobalPagination</code> รู้แค่ page index/size
+            ไม่รู้ว่า data ข้างบนเป็นอะไร
+          </td>
+          <td>นำกลับมาใช้ใหม่ได้โดยไม่ต้องแก้ component</td>
+        </tr>
+        <tr>
+          <td><strong>Prop-driven</strong></td>
+          <td>
+            state ทั้งหมดอยู่ที่ parent — component รับผ่าน props และคืน event ผ่าน callback ไม่
+            fetch data เอง
+          </td>
+          <td>ทดสอบง่าย, ไม่มี side effect ซ่อน</td>
+        </tr>
+        <tr>
+          <td><strong>Generic over Specific</strong></td>
+          <td>
+            ถ้า logic เหมือนกันหลาย feature ให้ใช้ generic type เช่น{' '}
+            <code>{'CommonTable<T>'}</code> แทน <code>RiderTable</code>, <code>OrderTable</code>{' '}
+            แยกกัน
+          </td>
+          <td>แก้ bug ที่เดียว fix ทุก feature</td>
+        </tr>
+        <tr>
+          <td><strong>Composition over Config</strong></td>
+          <td>
+            แทนที่จะใส่ <code>if</code> สำหรับทุก use case ให้รับ <code>ReactNode</code> ผ่าน
+            props เช่น <code>options</code> prop ของ <code>PageLayout</code>
+          </td>
+          <td>ไม่ต้องแก้ shared component เมื่อ feature ใหม่มีความต้องการแปลกออกไป</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="page-layout">1.3 ตัวอย่าง: PageLayout — Composition over Config</h3>
+    <p>
+      <code>PageLayout</code> เป็นตัวอย่างของ <strong>Composition over Config</strong> — แทนที่จะ
+      hardcode ปุ่ม Export หรือ title ทุกรูปแบบไว้ใน component ให้รับ <code>options</code> เป็น{' '}
+      <code>ReactNode</code> ทำให้แต่ละ page ใส่อะไรก็ได้โดยไม่ต้องแก้ <code>PageLayout</code>
+    </p>
+    <p>
+      ทุก page ภายใต้ <code>/app</code> ต้อง wrap ด้วย <code>&lt;PageLayout&gt;</code> เสมอ —
+      ไม่สร้าง header หรือ breadcrumb เอง เพราะจะทำให้ layout ไม่สอดคล้องกัน
     </p>
     <table>
       <thead>
@@ -68,7 +161,7 @@ const DesignPatternPage: FC<Props> = ({ navigate }) => (
             <code>options</code>
           </td>
           <td>ReactNode</td>
-          <td>แสดงขวาบนของ title (เช่น ปุ่ม Export)</td>
+          <td>แสดงขวาบนของ title — ใส่ปุ่มหรือ element อะไรก็ได้ (Composition)</td>
         </tr>
         <tr>
           <td>
@@ -171,10 +264,11 @@ const columns: ColumnDef<RiderListItem>[] = [
 />`}</code>
     </pre> */}
 
-    <h3 id="global-pagination">1.2 GlobalPagination</h3>
+    <h3 id="global-pagination">1.4 ตัวอย่าง: GlobalPagination — Prop-driven + Single Responsibility</h3>
     <p>
-      <code>GlobalPagination</code> คือ shared pagination component — ใช้แทน pagination ใน <code>CommonTable</code>{' '}
-      หรือใช้แยกได้เมื่อต้องการ control เองโดยตรง
+      <code>GlobalPagination</code> ไม่รู้ว่า data ข้างบนคืออะไร รู้แค่{' '}
+      <code>totalItems</code>, <code>pageIndex</code>, <code>pageSize</code> และเรียก callback
+      เมื่อ user กดเปลี่ยนหน้า state ทั้งหมดอยู่ที่ parent (Redux)
     </p>
     <table>
       <thead>
@@ -233,10 +327,55 @@ const columns: ColumnDef<RiderListItem>[] = [
 />`}</code>
     </pre>
     <blockquote>
-      <code>pageIndex</code> เป็น 0-based — หน้าแรกคือ <code>0</code>, ไม่ใช่ <code>1</code>
+      <code>pageIndex</code> เป็น 0-based — หน้าแรกคือ <code>0</code> ไม่ใช่ <code>1</code>
     </blockquote>
 
-    <h3 id="popup">1.3 Popup Components</h3>
+    <h3 id="common-table">1.5 ตัวอย่าง: CommonTable — Generic over Specific</h3>
+    <p>
+      <code>{'CommonTable<T>'}</code> ใช้ generic type <code>T</code>
+      ทำให้ component ไม่รู้จัก domain ใดเลย — caller ที่อยู่ feature layer รับผิดชอบกำหนด{' '}
+      column definition เอง แก้ bug ที่ <code>CommonTable</code> ที่เดียวแก้ได้ทุก feature
+    </p>
+    <pre>
+      <code>{`// ColumnDef<T> — caller กำหนดเองว่าแต่ละ column แสดงอะไร
+export interface ColumnDef<T> {
+  id: string;
+  label: React.ReactNode;
+  accessor?: keyof T;                                        // ดึง value ตรง ๆ
+  renderCell?: (item: T, index: number) => React.ReactNode; // หรือ custom render
+  sortable?: boolean;
+  onSort?: () => void;
+}
+
+// Feature layer กำหนด columns — CommonTable ไม่รู้จัก RiderListItem
+const columns: ColumnDef<RiderListItem>[] = [
+  { id: "name", label: "Name", accessor: "name" },
+  {
+    id: "status",
+    label: "Status",
+    renderCell: (item) => <StatusChip status={item.status} />,
+  },
+];
+
+<CommonTable
+  columns={columns}
+  data={riders}
+  isLoading={isLoading}
+  pagination={{
+    page: pageIndex,
+    pageSize: pageSize,
+    total: total,
+    onPageChange: (page) => dispatch(setPageIndex(page)),
+    onPageSizeChange: (size) => dispatch(setPageSize(size)),
+  }}
+/>`}</code>
+    </pre>
+    <blockquote>
+      ถ้าไม่ส่ง <code>pagination</code> prop → ไม่แสดง pagination —
+      ใช้ได้กับ list ที่ไม่ต้อง paginate
+    </blockquote>
+
+    {/* <h3 id="popup">1.6 Popup Components</h3>
     <table>
       <thead>
         <tr>
@@ -299,11 +438,19 @@ const [errorMessage, setErrorMessage] = useState("");
 >
   การกระทำนี้ไม่สามารถย้อนกลับได้
 </ConfirmPopup>`}</code>
-    </pre>
+    </pre> */}
 
     <h2 id="service-pattern">2. Service Pattern</h2>
+    <p>
+      ทุก API call ต้องผ่าน layer ที่กำหนดไว้ — ห้าม call ตรงจาก component
+      เพื่อให้ logic การเรียก API อยู่ที่เดียว แก้ไขได้ง่าย และ testable
+    </p>
 
     <h3 id="http-stack">2.1 HTTP Stack</h3>
+    <p>
+      การเรียก API ไหลผ่าน 4 ชั้นเสมอ — แต่ละชั้นมีหน้าที่ชัดเจนและไม่ข้ามชั้น
+      ทำให้ง่ายต่อการ mock ในการทดสอบและเปลี่ยน HTTP client ในอนาคตโดยไม่กระทบ business logic
+    </p>
     <pre>
       <code>{`Component / Page
     ↓ calls
@@ -322,6 +469,11 @@ API Server`}</code>
     </blockquote>
 
     <h3 id="domain-service">2.2 Domain Service — รูปแบบการเขียน</h3>
+    <p>
+      แต่ละ domain มี service file ของตัวเอง (เช่น <code>riderProfilesService.ts</code>)
+      ชื่อ function บอก intent ชัดเจนด้วย prefix —{' '}
+      <code>api*</code> คืน raw response, <code>get*</code> คืน unwrapped data, <code>export*</code> คืน Blob สำหรับ download
+    </p>
     <pre>
       <code>{`// riderProfilesService.ts
 
@@ -371,6 +523,10 @@ interface ErrorResponseProps {
     </pre>
 
     <h2 id="hook-pattern">3. Hook Pattern</h2>
+    <p>
+      Custom hook ที่ใช้ซ้ำทั่วโปรเจกต์ — แต่ละ hook มีหน้าที่เดียวและไม่ผูกกับ domain ใด
+      ช่วยลด boilerplate และทำให้ component อ่านง่ายขึ้น
+    </p>
 
     <h3 id="redux-hooks">3.1 useAppDispatch / useAppSelector — Typed Redux Hooks</h3>
     <p>

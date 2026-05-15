@@ -26,13 +26,14 @@ const NamingPage: FC<Props> = ({ navigate }) => (
     description="ช่วยให้เข้าใจโครงสร้างและ role ของแต่ละไฟล์/ตัวแปรได้ง่ายขึ้น ลดความสับสน และเพิ่มความสม่ำเสมอของ codebase"
     breadcrumb={['🏠', 'พื้นฐานโปรเจกต์', 'Naming Convention']}
     toc={toc}
+    prev="repo-structure"
     next="formatting"
     navigate={navigate}
   >
     <blockquote>
-      <strong>Audience:</strong> All frontend developers working on this project.
+      <strong>กลุ่มเป้าหมาย:</strong> นักพัฒนา Frontend ทุกคนในโปรเจกต์นี้
       <br />
-      <strong>Purpose:</strong> Ensure consistent code style, improve readability, reduce confusion, and increase codebase consistency.
+      <strong>วัตถุประสงค์:</strong> เพื่อให้ code style มีความสม่ำเสมอ อ่านง่ายขึ้น ลดความสับสน และเพิ่มความสอดคล้องของ codebase
     </blockquote>
 
     <h2 id="case-styles">Naming Case Styles</h2>
@@ -281,6 +282,15 @@ export default function RiderProfilesTable({
     </pre>
 
     <h2 id="hook-naming">Hook Naming</h2>
+    <p>
+      Hook ทุกตัวต้องขึ้นต้นด้วย <code>use</code> ตามด้วยชื่อที่สื่อว่า hook นั้นทำอะไร
+      Props type ของ hook ตั้งชื่อตาม pattern <code>{'{HookName}Props'}</code> เช่นเดียวกับ
+      component
+    </p>
+    <p>
+      Hook ที่รับ props หลายตัวให้ destructure จาก props object เดียว — ไม่รับเป็น positional
+      argument แยก เพื่อให้ call site อ่านง่ายขึ้นและเพิ่ม prop ใหม่ได้โดยไม่กระทบ signature
+    </p>
     <pre>
       <code>{`// useAutoRefresh.ts
 type UseAutoRefreshProps = {

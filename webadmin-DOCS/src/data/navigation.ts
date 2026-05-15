@@ -55,11 +55,10 @@ export const sections: NavSection[] = [
 ]
 
 export const orderedPages: Pick<NavPageItem, 'id' | 'label'>[] = [
-  { id: 'overview', label: 'Overview' },
+  { id: 'repo-structure', label: 'Repository Structure' },
   { id: 'naming', label: 'Naming Convention' },
   { id: 'formatting', label: 'Formatting' },
   { id: 'design-pattern', label: 'Design Pattern' },
-  { id: 'repo-structure', label: 'Repository Structure' },
 ]
 
 export type SearchItemKind = 'page' | 'heading' | 'text'
