@@ -6,6 +6,7 @@ import CategoryPage from './pages/CategoryPage'
 import NamingPage from './pages/NamingPage'
 import FormattingPage from './pages/FormattingPage'
 import DesignPatternPage from './pages/DesignPatternPage'
+import RepoStructurePage from './pages/RepoStructurePage'
 import type { PageId } from './data/navigation'
 
 export function App() {
@@ -48,6 +49,7 @@ export function App() {
       case 'naming': return <NamingPage navigate={navigate} />
       case 'formatting': return <FormattingPage navigate={navigate} />
       case 'design-pattern': return <DesignPatternPage navigate={navigate} />
+      case 'repo-structure': return <RepoStructurePage navigate={navigate} />
       default: return <CategoryPage navigate={navigate} />
     }
   }

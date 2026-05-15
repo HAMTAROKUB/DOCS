@@ -23,11 +23,12 @@ const toc: TocItem[] = [
 
 const DesignPatternPage: FC<Props> = ({ navigate }) => (
   <DocLayout
-    title="Shared Design Pattern"
+    title="Design Pattern"
     description="รวบรวม pattern หลักที่ใช้ซ้ำทั่วทั้งโปรเจกต์ — สำหรับใช้เป็น reference เมื่อต้องสร้าง feature ใหม่"
-    breadcrumb={['🏠', 'พื้นฐานโปรเจกต์', 'Shared Design Pattern']}
+    breadcrumb={['🏠', 'พื้นฐานโปรเจกต์', 'Design Pattern']}
     toc={toc}
     prev="formatting"
+    next="repo-structure"
     navigate={navigate}
   >
     <h2 id="component-pattern">1. Component Pattern</h2>

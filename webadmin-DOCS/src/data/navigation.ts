@@ -4,6 +4,7 @@ export type PageId =
   | 'naming'
   | 'formatting'
   | 'design-pattern'
+  | 'repo-structure'
 
 export type NavPageItem = {
   id: PageId
@@ -28,6 +29,11 @@ export const sections: NavSection[] = [
     //     label: 'Overview',
     //     description: 'ภาพรวม theme, layout และ tech stack ของ webadmin-DOCS',
     //   },
+    {
+        id: 'repo-structure',
+        label: 'Repository Structure',
+        description: 'โครงสร้าง folder และ file — แต่ละ layer อยู่ที่ไหน มีหน้าที่อะไร',
+      },
       {
         id: 'naming',
         label: 'Naming Convention',
@@ -41,7 +47,7 @@ export const sections: NavSection[] = [
       },
       {
         id: 'design-pattern',
-        label: 'Shared Design Pattern',
+        label: 'Design Pattern',
         description: 'Design pattern หลักที่ใช้ซ้ำทั่วทั้งโปรเจกต์',
       },
     ],
@@ -52,7 +58,8 @@ export const orderedPages: Pick<NavPageItem, 'id' | 'label'>[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'naming', label: 'Naming Convention' },
   { id: 'formatting', label: 'Formatting' },
-  { id: 'design-pattern', label: 'Shared Design Pattern' },
+  { id: 'design-pattern', label: 'Design Pattern' },
+  { id: 'repo-structure', label: 'Repository Structure' },
 ]
 
 export type SearchItemKind = 'page' | 'heading' | 'text'
@@ -70,7 +77,7 @@ export const searchIndex: SearchItem[] = [
   { kind: 'page', pageId: 'foundation', label: 'พื้นฐานโปรเจกต์', context: 'หน้าหลัก' },
   { kind: 'page', pageId: 'naming', label: 'Naming Convention', context: 'พื้นฐานโปรเจกต์' },
   { kind: 'page', pageId: 'formatting', label: 'Formatting', context: 'พื้นฐานโปรเจกต์' },
-  { kind: 'page', pageId: 'design-pattern', label: 'Shared Design Pattern', context: 'พื้นฐานโปรเจกต์' },
+  { kind: 'page', pageId: 'design-pattern', label: 'Design Pattern', context: 'พื้นฐานโปรเจกต์' },
 
   // ── Naming Convention ─────────────────────────────────────────────
   { kind: 'heading', pageId: 'naming', anchor: 'case-styles', label: 'Naming Case Styles', context: 'Naming Convention' },
@@ -97,19 +104,19 @@ export const searchIndex: SearchItem[] = [
   { kind: 'heading', pageId: 'formatting', anchor: 'function-style', label: 'Function Style', context: 'Formatting' },
   { kind: 'heading', pageId: 'formatting', anchor: 'type-annotation', label: 'Type Annotation Style', context: 'Formatting' },
 
-  // ── Shared Design Pattern ─────────────────────────────────────────
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'component-pattern', label: 'Component Pattern', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'page-layout', label: 'PageLayout', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'common-table', label: 'CommonTable', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'search-filter', label: 'SearchAndFilter', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'popup', label: 'Popup Components', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'service-pattern', label: 'Service Pattern', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'http-stack', label: 'HTTP Stack', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'domain-service', label: 'Domain Service', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'hook-pattern', label: 'Hook Pattern', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'redux-hooks', label: 'useAppDispatch / useAppSelector', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'use-debounce', label: 'useDebounce', context: 'Shared Design Pattern' },
-  { kind: 'heading', pageId: 'design-pattern', anchor: 'use-auto-refresh', label: 'useAutoRefresh', context: 'Shared Design Pattern' },
+  // ── Design Pattern ─────────────────────────────────────────
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'component-pattern', label: 'Component Pattern', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'page-layout', label: 'PageLayout', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'common-table', label: 'CommonTable', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'search-filter', label: 'SearchAndFilter', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'popup', label: 'Popup Components', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'service-pattern', label: 'Service Pattern', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'http-stack', label: 'HTTP Stack', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'domain-service', label: 'Domain Service', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'hook-pattern', label: 'Hook Pattern', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'redux-hooks', label: 'useAppDispatch / useAppSelector', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'use-debounce', label: 'useDebounce', context: 'Design Pattern' },
+  { kind: 'heading', pageId: 'design-pattern', anchor: 'use-auto-refresh', label: 'useAutoRefresh', context: 'Design Pattern' },
 
   // ── Text snippets ─────────────────────────────────────────────────
   { kind: 'text', pageId: 'naming', anchor: 'case-styles', label: 'PascalCase, camelCase, kebab-case, UPPER_SNAKE_CASE', context: 'Naming Convention' },
@@ -119,9 +126,9 @@ export const searchIndex: SearchItem[] = [
   { kind: 'text', pageId: 'formatting', anchor: 'typescript', label: 'strict: true, noUnusedLocals, noUnusedParameters, verbatimModuleSyntax', context: 'Formatting' },
   { kind: 'text', pageId: 'formatting', anchor: 'quotes', label: 'ใช้ Double quotes สำหรับ string ทั่วไป', context: 'Formatting' },
   { kind: 'text', pageId: 'formatting', anchor: 'import-order', label: 'เรียง import เป็น 4 กลุ่ม: React, Third-party, Interface, Components', context: 'Formatting' },
-  { kind: 'text', pageId: 'design-pattern', anchor: 'page-layout', label: 'ทุก page ต้อง wrap ด้วย PageLayout เสมอ ห้ามสร้าง header หรือ breadcrumb เอง', context: 'Shared Design Pattern' },
-  { kind: 'text', pageId: 'design-pattern', anchor: 'hook-pattern', label: 'ใช้ async/await + try/catch เสมอ ห้ามใช้ .then().catch()', context: 'Shared Design Pattern' },
-  { kind: 'text', pageId: 'design-pattern', anchor: 'http-stack', label: 'apiService.fetchData — wrapper กลางสำหรับทุก HTTP request', context: 'Shared Design Pattern' },
+  { kind: 'text', pageId: 'design-pattern', anchor: 'page-layout', label: 'ทุก page ต้อง wrap ด้วย PageLayout เสมอ ห้ามสร้าง header หรือ breadcrumb เอง', context: 'Design Pattern' },
+  { kind: 'text', pageId: 'design-pattern', anchor: 'hook-pattern', label: 'ใช้ async/await + try/catch เสมอ ห้ามใช้ .then().catch()', context: 'Design Pattern' },
+  { kind: 'text', pageId: 'design-pattern', anchor: 'http-stack', label: 'apiService.fetchData — wrapper กลางสำหรับทุก HTTP request', context: 'Design Pattern' },
 ]
 
 export const allSearchItems: NavPageItem[] = [

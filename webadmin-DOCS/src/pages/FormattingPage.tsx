@@ -197,7 +197,12 @@ export default defineConfig([
             <code>erasableSyntaxOnly</code>
           </td>
           <td>
-            ห้ามใช้ <code>enum</code> บางรูปแบบ — ใช้ <code>as const</code> object แทน
+            ห้ามใช้ <code>enum</code> ที่มี runtime value (เช่น numeric enum หรือ string enum
+            ทั่วไป) เพราะ TypeScript จะ emit JavaScript เพิ่มออกมา — ซึ่งขัดกับ SWC/esbuild ที่
+            ใช้ type-erase อย่างเดียว{' '}
+            <strong>
+              ให้ใช้ <code>as const</code> object แทนเสมอ
+            </strong>
           </td>
         </tr>
       </tbody>
