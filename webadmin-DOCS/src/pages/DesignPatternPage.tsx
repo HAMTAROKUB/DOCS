@@ -588,7 +588,7 @@ interface ErrorResponseProps {
 
     <h3 id="redux-hooks">3.1 useAppDispatch / useAppSelector — Typed Redux Hooks</h3>
     <p>
-      ห้ามใช้ <code>useDispatch</code> / <code>useSelector</code> ดิบ — ใช้ typed version จาก{' '}
+      ห้ามใช้ <code>useDispatch</code> / <code>useSelector</code> แบบ untyped — ใช้ typed version จาก{' '}
       <code>src/stores/hooks.ts</code> เสมอ
     </p>
     <pre>

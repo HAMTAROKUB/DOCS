@@ -326,7 +326,7 @@ export function useDebounce<T extends (...args: unknown[]) => void>(
             <code>api</code>
           </td>
           <td>
-            เรียก API โดยตรง คืนค่าเป็น <code>SuccessResponse&lt;T&gt;</code> ดิบ ๆ
+           เรียก API โดยตรง คืนค่าเป็น <code>SuccessResponse&lt;T&gt;</code> ที่ยังไม่ผ่านการแปลงค่า
           </td>
           <td>
             <code>apiGetOrderHistoryList</code>, <code>apiUserLogin</code>
