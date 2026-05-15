@@ -52,6 +52,12 @@ export function App() {
     }
   }
 
+  const closeSidebarOnMobile = () => {
+    if (window.innerWidth <= 768) {
+      setSidebarOpen(false)
+    }
+  }
+
   return (
     <>
       <TopNav
@@ -60,7 +66,11 @@ export function App() {
       />
       <div className="layout">
         <Sidebar currentPage={currentPage} navigate={navigate} open={sidebarOpen} />
-        <main className={`main-content${sidebarOpen ? '' : ' sidebar-hidden'}`}>
+        {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebarOnMobile} />}
+        <main
+          className={`main-content${sidebarOpen ? '' : ' sidebar-hidden'}`}
+          onClick={closeSidebarOnMobile}
+        >
           {renderContent()}
         </main>
       </div>
