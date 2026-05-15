@@ -15,8 +15,9 @@
 7. [Trailing Commas](#7-trailing-commas)
 8. [Import Order](#8-import-order)
 9. [Function Style](#9-function-style)
-10. [Type Annotation Style](#10-type-annotation-style)
-11. [Quick Checklist](#11-quick-checklist)
+10. [MUI & Styling](#10-mui--styling)
+11. [Type Annotation Style](#11-type-annotation-style)
+12. [Quick Checklist](#12-quick-checklist)
 
 ---
 
@@ -356,7 +357,40 @@ const handleDrawerToggle = () => {
 
 ---
 
-## 10. Type Annotation Style
+## 10. MUI & Styling
+
+### ใช้เฉพาะ `@mui/joy`
+
+ห้าม import render component จาก `@mui/material` เพราะ theme และ style จะขัดกัน  
+ยกเว้น `useMediaQuery` hook เท่านั้นที่ยังไม่มีใน Joy
+
+```typescript
+// ✅ ถูก
+import { Box, Typography, Button } from '@mui/joy';
+
+// ❌ ผิด — ห้าม render component จาก @mui/material
+import { Box, Button } from '@mui/material';
+```
+
+### ใช้ `sx` prop — ห้าม inline `style`
+
+```typescript
+// ✅ ถูก — sx prop
+<Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+  <Typography sx={{ fontWeight: 600 }}>Label</Typography>
+</Box>
+
+// ❌ ผิด — inline style object
+<Box style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+  <Typography style={{ fontWeight: 600 }}>Label</Typography>
+</Box>
+```
+
+> MUI Joy `level` prop สำหรับ typography (`h1`–`h3`, `title1`–`title3`, `body1`–`body2`) จะอยู่ใน `05-ui-patterns.md`
+
+---
+
+## 11. Type Annotation Style
 
 ### ใช้ `interface` กับ `type` ต่างกัน
 
@@ -420,7 +454,7 @@ enum OrderStatus {
 
 ---
 
-## 11. Quick Checklist
+## 12. Quick Checklist
 
 ใช้ checklist นี้ก่อน commit:
 

@@ -15,6 +15,7 @@ const toc: TocItem[] = [
   { id: 'import-order', label: 'Import Order', level: 2 },
   { id: 'function-style', label: 'Function Style', level: 2 },
   { id: 'type-annotation', label: 'Type Annotation Style', level: 2 },
+  { id: 'mui-styling', label: 'MUI & Styling', level: 2 },
 ]
 
 const FormattingPage: FC<Props> = ({ navigate }) => (
@@ -296,6 +297,38 @@ const fetchTableData = useCallback(async () => {
     dispatch(toggleLoading(false));
   }
 }, [deps]);`}</code>
+    </pre>
+
+    <h2 id="mui-styling">MUI & Styling</h2>
+    <p>
+      ใช้เฉพาะ <code>@mui/joy</code> สำหรับ render component — ห้าม import render component จาก{' '}
+      <code>@mui/material</code> เพราะ theme และ style จะขัดกัน
+    </p>
+    <blockquote>
+      ยกเว้น <code>useMediaQuery</code> hook ที่ยังไม่มีใน Joy — import จาก{' '}
+      <code>@mui/material</code> ได้เฉพาะ hook นี้เท่านั้น
+    </blockquote>
+    <pre>
+      <code>{`// ✅ ถูก
+import { Box, Typography, Button } from '@mui/joy';
+
+// ❌ ผิด — ห้าม render component จาก @mui/material
+import { Box, Button } from '@mui/material';`}</code>
+    </pre>
+
+    <p>
+      ใช้ <code>sx</code> prop สำหรับ styling — ห้ามใช้ inline <code>style</code> object
+    </p>
+    <pre>
+      <code>{`// ✅ ถูก — sx prop
+<Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+  <Typography sx={{ fontWeight: 600 }}>Label</Typography>
+</Box>
+
+// ❌ ผิด — inline style object
+<Box style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+  <Typography style={{ fontWeight: 600 }}>Label</Typography>
+</Box>`}</code>
     </pre>
 
     <h2 id="type-annotation">Type Annotation Style</h2>
