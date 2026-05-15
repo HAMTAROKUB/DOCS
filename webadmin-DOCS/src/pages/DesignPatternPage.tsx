@@ -12,7 +12,7 @@ const toc: TocItem[] = [
   { id: 'page-layout', label: 'ตัวอย่าง: PageLayout', level: 3 },
   { id: 'global-pagination', label: 'ตัวอย่าง: GlobalPagination', level: 3 },
   { id: 'common-table', label: 'ตัวอย่าง: CommonTable', level: 3 },
-  { id: 'popup', label: 'Popup Components', level: 3 },
+  { id: 'feature-component-example', label: 'ตัวอย่าง: Feature Component', level: 3 },
   { id: 'service-pattern', label: 'Service Pattern', level: 2 },
   { id: 'http-stack', label: 'HTTP Stack', level: 3 },
   { id: 'domain-service', label: 'Domain Service', level: 3 },
@@ -375,7 +375,65 @@ const columns: ColumnDef<RiderListItem>[] = [
       ใช้ได้กับ list ที่ไม่ต้อง paginate
     </blockquote>
 
-    {/* <h3 id="popup">1.6 Popup Components</h3>
+    <h3 id="feature-component-example">1.6 ตัวอย่าง: การเขียน Feature Component</h3>
+    <p>
+      ตัวอย่างการเขียน <code>RiderProfilesTable</code> (feature component) ที่ใช้ shared components
+      อย่าง <code>CommonTable</code> และ <code>GlobalPagination</code> — state เก็บ Redux เท่านั้น
+    </p>
+    <pre>
+      <code>{`// features/riderManagement/RiderProfilesTable.tsx
+import type { FC } from "react";
+import CommonTable, { type ColumnDef } from "../../components/CommonTable";
+import GlobalPagination from "../../components/GlobalPagination";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import {
+  setPageIndex,
+  setPageSize,
+  setRiderList,
+} from "./riderProfilesSlice";
+import { apiGetRiderList } from "../../services/riderProfilesService";
+
+const RiderProfilesTable: FC = () => {
+  const dispatch = useAppDispatch();
+  const { riderList, pageIndex, pageSize, total, isLoading } = useAppSelector(
+    (state) => state.riderProfiles,
+  );
+
+  // Column definition — feature layer กำหนด
+  const columns: ColumnDef<RiderListItem>[] = [
+    { id: "id", label: "ID", accessor: "id" },
+    { id: "name", label: "Name", accessor: "name" },
+    {
+      id: "status",
+      label: "Status",
+      renderCell: (item) => <StatusBadge status={item.status} />,
+    },
+  ];
+
+  return (
+    <CommonTable
+      columns={columns}
+      data={riderList}
+      isLoading={isLoading}
+      pagination={{
+        page: pageIndex,
+        pageSize: pageSize,
+        total: total,
+        onPageChange: (page) => dispatch(setPageIndex(page)),
+        onPageSizeChange: (size) => dispatch(setPageSize(size)),
+      }}
+    />
+  );
+};
+
+export default RiderProfilesTable;`}</code>
+    </pre>
+    <blockquote>
+      <strong>ที่สำคัญ:</strong> Feature component ไม่ render header, breadcrumb, layout wrapper เอง
+      — ปล่อยให้ page component ทำ เพื่อไม่ให้ layout ไม่สอดคล้องกัน
+    </blockquote>
+
+    {/* <h3 id="popup">1.7 Popup Components</h3>
     <table>
       <thead>
         <tr>
