@@ -8,8 +8,8 @@ type Props = { navigate: (page: PageId) => void }
 const toc: TocItem[] = [
   { id: 'component-pattern', label: 'Component Pattern', level: 2 },
   { id: 'page-layout', label: 'PageLayout', level: 3 },
-  { id: 'common-table', label: 'CommonTable', level: 3 },
-  { id: 'search-filter', label: 'SearchAndFilter', level: 3 },
+  // { id: 'common-table', label: 'CommonTable', level: 3 },
+  // { id: 'search-filter', label: 'SearchAndFilter', level: 3 },
   { id: 'popup', label: 'Popup Components', level: 3 },
   { id: 'service-pattern', label: 'Service Pattern', level: 2 },
   { id: 'http-stack', label: 'HTTP Stack', level: 3 },
@@ -92,7 +92,7 @@ const DesignPatternPage: FC<Props> = ({ navigate }) => (
 </PageLayout>`}</code>
     </pre>
 
-    <h3 id="common-table">1.2 CommonTable — Generic Table Component</h3>
+    {/* <h3 id="common-table">1.2 CommonTable — Generic Table Component</h3>
     <p>
       <code>CommonTable&lt;T&gt;</code> เป็น generic component รับ type ของข้อมูลแต่ละแถว
       ไม่รู้จัก business logic ใด ๆ รับแค่ <code>columns</code> definition และ <code>data</code>{' '}
@@ -167,9 +167,9 @@ const columns: ColumnDef<RiderListItem>[] = [
   // Action button (มุมขวา)
   actionButton={<Button onClick={handleExport}>Export</Button>}
 />`}</code>
-    </pre>
+    </pre> */}
 
-    <h3 id="popup">1.4 Popup Components</h3>
+    <h3 id="popup">1.2 Popup Components</h3>
     <table>
       <thead>
         <tr>
