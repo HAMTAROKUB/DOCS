@@ -282,7 +282,7 @@ export default function OrderHistoryListPage() { ... }
 // ✅ Arrow function — shared/utility components
 export const Selecter = (props: SelecterProps) => { ... }
 
-// ✅ async/await + try/catch เสมอ (ห้ามใช้ .then().catch())
+// ✅ async/await + try/catch
 const fetchTableData = useCallback(async () => {
   dispatch(toggleLoading(true));
   try {

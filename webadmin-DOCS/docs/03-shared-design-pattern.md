@@ -245,7 +245,7 @@ const apiService = {
 ```typescript
 // riderProfilesService.ts
 
-// api prefix → คืน SuccessResponse<T> ดิบ
+// api prefix → คืน SuccessResponse<T> ที่ยังไม่ผ่านการแปลงค่า
 export const apiGetRiderList = async (
   params: GetRiderListParams,
 ): Promise<SuccessResponse<GetRiderListResponse>> => {
