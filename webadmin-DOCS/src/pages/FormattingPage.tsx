@@ -304,6 +304,25 @@ const fetchTableData = useCallback(async () => {
 }, [deps]);`}</code>
     </pre>
 
+    <h2 id="type-annotation">Type Annotation Style</h2>
+    <pre>
+      <code>{`// interface — object shape ที่อาจ extend ได้
+interface RiderProfilesTableProps {
+  data: RiderListItem[];
+  onNameSort: () => void;
+}
+
+// type — union, alias, primitive, mapped type
+type RiderJobTypeFilter = string | null;
+type SortDirection = "asc" | "desc";
+
+// ✅ unknown + narrow (ห้ามใช้ any)
+} catch (err) {
+  const error = err as ErrorResponseProps;
+  setErrorMessage(error.message);
+}`}</code>
+    </pre>
+
     <h2 id="mui-styling">MUI & Styling</h2>
     <p>
       ควรใช้ <code>@mui/joy</code> สำหรับ render component เพราะโปรเจกต์ใช้ Joy theme เป็นหลัก —
@@ -338,25 +357,6 @@ import { Box, Button } from '@mui/material';`}</code>
 <Box style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
   <Typography style={{ fontWeight: 600 }}>Label</Typography>
 </Box>`}</code>
-    </pre>
-
-    <h2 id="type-annotation">Type Annotation Style</h2>
-    <pre>
-      <code>{`// interface — object shape ที่อาจ extend ได้
-interface RiderProfilesTableProps {
-  data: RiderListItem[];
-  onNameSort: () => void;
-}
-
-// type — union, alias, primitive, mapped type
-type RiderJobTypeFilter = string | null;
-type SortDirection = "asc" | "desc";
-
-// ✅ unknown + narrow (ห้ามใช้ any)
-} catch (err) {
-  const error = err as ErrorResponseProps;
-  setErrorMessage(error.message);
-}`}</code>
     </pre>
   </DocLayout>
 )
