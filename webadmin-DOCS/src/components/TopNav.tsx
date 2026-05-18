@@ -1,12 +1,29 @@
 import { useState, useEffect } from 'react'
 import type { FC } from 'react'
+import { useMsal } from '@azure/msal-react'
+import type { GoogleUser } from '../auth/googleConfig'
 
 type TopNavProps = {
   onMenuClick: () => void
   onSearchClick: () => void
+  googleUser?: GoogleUser | null
+  onGoogleLogout?: () => void
 }
 
-const TopNav: FC<TopNavProps> = ({ onMenuClick, onSearchClick }) => {
+const TopNav: FC<TopNavProps> = ({ onMenuClick, onSearchClick, googleUser, onGoogleLogout }) => {
+  const { instance, accounts } = useMsal()
+  const msalAccount = accounts[0]
+
+  const handleMsalLogout = async () => {
+    await instance.clearCache()
+    window.location.href = window.location.origin
+  }
+
+  // Display either MSAL account or Google user
+  const displayName = msalAccount?.name ?? msalAccount?.username ?? googleUser?.name ?? null
+  const displayInitial = displayName?.[0]?.toUpperCase() ?? null
+  const isGoogleUser = !msalAccount && googleUser !== null
+
   const [theme, setTheme] = useState<'dark' | 'light'>(
     () => (localStorage.getItem('docs-theme') as 'dark' | 'light') ?? 'dark',
   )
@@ -63,6 +80,28 @@ const TopNav: FC<TopNavProps> = ({ onMenuClick, onSearchClick }) => {
             </svg>
           )}
         </button>
+        {displayName && (
+          <div className="topnav-user">
+            <div
+              className={`topnav-avatar${isGoogleUser ? ' topnav-avatar-google' : ''}`}
+              title={googleUser?.email ?? msalAccount?.username}
+            >
+              {displayInitial}
+            </div>
+            <span className="topnav-username">{displayName}</span>
+            <button
+              className="topnav-logout"
+              onClick={isGoogleUser ? onGoogleLogout : handleMsalLogout}
+              title="Sign out"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </header>
   )
